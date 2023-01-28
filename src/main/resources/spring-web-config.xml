@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- Scan for beans & dependencies inside the com.library.web -->
+    <context:component-scan base-package="com.library"/>
+
+
+    <!-- Resolver beans -->
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+
+    <!-- Converter beans -->
+
+    <bean id="defaultUserConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.UserDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="defaultUserPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="reversedUserConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.core.model.User"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="reverseUserPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="cartDtoFullConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.CartDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="cartDtoFullPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="cartEntryDtoConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.CartEntryDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="cartEntryDtoFullPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="productDtoConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.ProductCustomerDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="productDtoBasicPopulator"/>
+                <ref bean="productDtoDetailsPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="productDtoBasicConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.ProductCustomerDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="productDtoBasicPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="reverseCheckoutConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.core.model.Order"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="reverseCheckoutPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="checkoutDtoConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.CheckoutDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="checkoutDtoPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orderEntryConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.core.model.OrderEntry"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="orderEntryPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orderEntryDtoConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.OrderEntryDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="orderEntryDtoPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orderDtoConverter" class="com.library.facade.converter.impl.DefaultConverter">
+        <property name="targetClass" value="com.library.facade.dto.OrderDto"/>
+        <property name="populatorsList">
+            <list>
+                <ref bean="orderDtoPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Populator beans -->
+
+    <bean id="defaultUserPopulator" class="com.library.facade.populator.impl.DefaultUserPopulator"/>
+
+    <bean id="reverseUserPopulator" class="com.library.facade.populator.impl.ReverseUserPopulator"/>
+
+    <bean id="cartDtoFullPopulator" class="com.library.facade.populator.impl.CartDtoFullPopulator"/>
+
+    <bean id="cartEntryDtoFullPopulator" class="com.library.facade.populator.impl.CartEntryDtoFullPopulator"/>
+
+    <bean id="productDtoBasicPopulator" class="com.library.facade.populator.impl.ProductDtoBasicPopulator"/>
+
+    <bean id="productDtoDetailsPopulator"
+          class="com.library.facade.populator.impl.ProductDtoDetailsPopulator"/>
+
+    <bean id="reverseCheckoutPopulator" class="com.library.facade.populator.impl.ReverseCheckoutPopulator"/>
+
+    <bean id="checkoutDtoPopulator" class="com.library.facade.populator.impl.CheckoutDtoPopulator"/>
+
+    <bean id="orderEntryPopulator" class="com.library.facade.populator.impl.OrderEntryPopulator"/>
+
+    <bean id="orderEntryDtoPopulator" class="com.library.facade.populator.impl.OrderEntryDtoPopulator"/>
+
+    <bean id="orderDtoPopulator" class="com.library.facade.populator.impl.OrderDtoPopulator"/>
+
+    <!-- Security beans -->
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+
+    <!-- Product image file mapping -->
+
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <mvc:resources mapping="/images/**" location="file:///C:/Users/madal/Documents/library/"/>
+
+</beans>
